@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 26.02.19
- * Time: 12:43
- */
 
-namespace App;
+namespace Core;
 
 
 class ServiceController

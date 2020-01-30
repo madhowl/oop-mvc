@@ -1,8 +1,7 @@
 <?php
+session_start();
 require_once ('vendor/autoload.php');
 
-//use App\Controller ;
-//use App\ServiceController;
 use \NoahBuscher\Macaw\Macaw;
 
 
@@ -15,5 +14,7 @@ Macaw::get('/about', function() {
 
 Macaw::get('news/', 'App\Controller@allNews');
 Macaw::get('news/(:num)', 'App\Controller@singleNews');
+Macaw::get('all', 'Core\CoreController@all');
+Macaw::get('count', 'Core\CoreController@count');
 
 Macaw::dispatch();
