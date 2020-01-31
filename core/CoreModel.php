@@ -3,6 +3,8 @@
 namespace Core;
 
 use Config\DB;
+//use Config\App;
+use Config\SQLiteConnection;
 
 class CoreModel {
 
@@ -12,14 +14,15 @@ class CoreModel {
 
     public function __construct($table) {
         $this->db = DB::connToDB();
+        //$this->db = SQLiteConnection::connToDB();
         $this->table = $table;
     }
 
     public function all() {
         $sql = "SELECT * FROM " . $this->table;
-        $result = $this->db->prepare($sql);
-        $result->execute();
-        while($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $this->out[] = $row;
         }
         return $this->out;
@@ -41,12 +44,15 @@ class CoreModel {
 
     }
 
+    /**
+     * @return integer количество записей в таблице
+     */
     public function count()
     {
         $sql="SELECT count(*) AS c FROM ".$this->table;
-        $result = $this->db->prepare($sql);
-        $result->execute();
-        $count = $result->fetch(\PDO::FETCH_OBJ);
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->fetch(\PDO::FETCH_OBJ);
         return $count->c;
     }
 

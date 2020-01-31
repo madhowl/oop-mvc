@@ -13,6 +13,7 @@ Macaw::get('/about', function() {
 });
 
 Macaw::get('news/', 'App\Controller@allNews');
+Macaw::get('import/', 'App\ImportController@loadImage');
 Macaw::get('news/(:num)', 'App\Controller@singleNews');
 Macaw::get('all', 'Core\CoreController@all');
 Macaw::get('count', 'Core\CoreController@count');

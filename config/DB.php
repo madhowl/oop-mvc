@@ -12,6 +12,8 @@ class DB
     const PASS  = "user";
     const HOST  = "192.168.200.79";
     const DB    = "all-books";
+    // для sqlite
+    //const PATH_TO_SQLITE_FILE = 'db/phpsqlite.db';
 
     public static function connToDB() {
         $user   = self::USER;
