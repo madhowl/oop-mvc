@@ -14,7 +14,7 @@ class CoreController
 
     public function __construct ()
     {
-        //$this->Model = new Model('Имя таблицы');
+        $this->Model = new Model('books');
     }
 
     public function count()

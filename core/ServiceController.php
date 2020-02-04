@@ -26,25 +26,19 @@ class ServiceController
         }
     }
 
-    public function imageResize($src, $width=100) {
-        //$filename – полный путь  к файлу.
-        $filename=$_SERVER['DOCUMENT_ROOT'].$src;
-        //функция  getimagesize() возвращает информацию о файле.
-        $size = getimagesize ($filename);
-        //ширина изображения:
-        $w=$size['0'];
-        //высота  изображения:
-        $h=$size['1'];
-        //mime тип файла:
-        $type = $size['mime'];
+    public static function imageResize($src, $width=400) {
+        $filename=$src;//$filename – полный путь  к файлу.
+        $size = getimagesize ($filename);//функция  getimagesize() возвращает информацию о файле.
+        $w=$size['0'];//ширина изображения
+        $h=$size['1'];//высота  изображения
+        $type = $size['mime'];//mime тип файла
         //отношение  ширины к высоте, далее будет использовано для пропорционального ресайза  изображения
         $ratio = $w/$h;
-        //ширина  превью:
-        $th_w = $width;
-        //высота  превью:
-        $th_h = $th_w/$ratio;
-        //передаем  браузеру заголовок типа контента:
-        header("Content-type: $type");
+        $th_w = $width;//ширина  превью
+        $th_h = $th_w/$ratio;//высота  превью:
+        $newImage ='';
+
+
         //переключатель  типов, возможные варианты изображений: jpg,  png и gif:
         switch ($type) {
             case 'image/jpeg':
@@ -59,7 +53,7 @@ class ServiceController
                 //копируем  большое изображение в маленькое:
                 imagecopyresampled($thumbImage, $src_img, 0, 0, 0, 0, $th_w, $th_h, $w, $h);
                 //выводим  в браузер маленькое изображение:
-                imagejpeg($thumbImage, '', 100);
+                $newImage = imagejpeg($thumbImage, $filename, 85);
                 break;
             //для  остальных форматов все аналогично:
             case 'image/png':
@@ -67,14 +61,14 @@ class ServiceController
                 imagealphablending($src_img, true);
                 $thumbImage = imagecreatetruecolor($th_w, $th_h);
                 imagecopyresampled($thumbImage, $src_img, 0, 0, 0, 0, $th_w, $th_h, $w, $h);
-                imagepng($thumbImage, '', 0);
+                $newImage = imagepng($thumbImage, '', 0);
                 break;
             case 'image/gif':
                 $src_img = imagecreatefromgif($filename);
                 imagealphablending($src_img, true);
                 $thumbImage = imagecreatetruecolor($th_w, $th_h);
                 imagecopyresampled($thumbImage, $src_img, 0, 0, 0, 0, $th_w, $th_h, $w, $h);
-                imagegif($thumbImage, '', 100);
+                $newImage = imagegif($thumbImage, '', 100);
                 break;
             default:
                 //echo "Формат изображения не поддерживается.";
@@ -82,6 +76,7 @@ class ServiceController
         }
         //удаляем  изображение из памяти.
         imagedestroy($thumbImage);
+        return $newImage;
     }
 
 

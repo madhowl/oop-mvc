@@ -15,6 +15,7 @@
         }
     },
     "require": {
-        "noahbuscher/macaw": "dev-master"
+        "noahbuscher/macaw": "dev-master",
+        "maximebf/debugbar": "^1.16"
     }
 }

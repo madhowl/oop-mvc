@@ -5,22 +5,42 @@ namespace Core;
 use Config\DB;
 //use Config\App;
 use Config\SQLiteConnection;
+use Core\ServiceController as S;
 
 class CoreModel {
 
     public $db = null;
     public $table;
     public $out=array();
+    public $itemCount;
+    public $perPage = 10;
+    public $pageCount;
 
     public function __construct($table) {
         $this->db = DB::connToDB();
-        //$this->db = SQLiteConnection::connToDB();
         $this->table = $table;
+        $this->itemCount = $this->count ();
+        $this->pageCount = ceil($this->itemCount / $this->perPage);
     }
 
     public function all() {
         $sql = "SELECT * FROM " . $this->table;
         $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $this->out[] = $row;
+        }
+        return $this->out;
+    }
+
+    public function pagination($curentPage = 1) {
+        $sql = "SELECT * FROM " . $this->table .' LIMIT :curentPage , :perPage';
+
+        $stmt = $this->db->prepare($sql);
+        //S::dbg ($stmt);
+        $stmt->bindValue(":curentPage", $curentPage, \PDO::PARAM_INT);
+        $stmt->bindValue(":perPage", $this->perPage, \PDO::PARAM_INT);
+        //S::dbg ($stmt);
         $stmt->execute();
         while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $this->out[] = $row;
