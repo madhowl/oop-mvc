@@ -12,7 +12,7 @@ use DebugBar\StandardDebugBar;
 
 Macaw::get('/', function() {
     //echo 'Hello world!';
-    include ('template/debug.php');
+    include ('template/import.html');
 });
 Macaw::get('/about', function() {
     phpinfo ();
@@ -24,6 +24,10 @@ Macaw::get('books/(:num)', 'App\BooksController@showBookListPerPage');
 
 Macaw::get('import/', 'App\ImportController@loadImage');
 Macaw::get('import/all', 'App\ImportController@loadAllImageFromDB');
+Macaw::get('import/list', 'App\ImportController@getListImageFromDB');
+
+
+
 Macaw::get('news/(:num)', 'App\Controller@singleNews');
 Macaw::get('all', 'Core\CoreController@all');
 Macaw::get('count', 'Core\CoreController@count');

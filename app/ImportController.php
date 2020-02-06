@@ -3,8 +3,6 @@
 
 namespace App;
 
-
-
 use Core\CoreModel;
 use Core\ServiceController as S;
 
@@ -16,7 +14,7 @@ class ImportController
     {
         $this->Model = new CoreModel('books');
         $this->UploadDir = 'uploads/';
-        S::dbg ($this->UploadDir);
+        //S::dbg ($this->UploadDir);
     }
 
     public function loadImage($id)
@@ -38,5 +36,18 @@ class ImportController
         {
             $this->loadImage ($item['id']);
         }
+    }
+
+    public function getListImageFromDB()
+    {
+        $list = $this->Model->pagination(1);
+        $out = array();
+        foreach ( $list as $item)
+        {
+          $out[] = $item['original_picture'];
+        }
+        $json = json_encode( $out );
+        //S::dbg($json);
+        return $json;
     }
 }
