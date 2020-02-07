@@ -48,6 +48,7 @@ class ImportController
         }
         $json = json_encode( $out );
         //S::dbg($json);
-        return $json;
+        header('Content-Type: application/json');
+        echo $json;
     }
 }
