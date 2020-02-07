@@ -1,5 +1,6 @@
 <?php
 session_start();
+@define('ABSPATH', str_replace('\\', '/', dirname(__FILE__)));
 require_once ('vendor/autoload.php');
 
 use \NoahBuscher\Macaw\Macaw;
@@ -19,6 +20,9 @@ Macaw::get('/about', function() {
 });
 
 Macaw::get('news/', 'App\Controller@allNews');
+
+
+Macaw::get('blog/', 'App\blog\PostsController@getAllPosts');
 
 Macaw::get('books/(:num)', 'App\BooksController@showBookListPerPage');
 
