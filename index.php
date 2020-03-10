@@ -4,11 +4,8 @@ session_start();
 require_once ('vendor/autoload.php');
 
 use \NoahBuscher\Macaw\Macaw;
-use DebugBar\StandardDebugBar;
 
-//$debugbar = new StandardDebugBar();
-//$debugbarRenderer = $debugbar->getJavascriptRenderer();
-//$debugbar["messages"]->addMessage("hello world!");
+
 
 
 Macaw::get('/', function() {
@@ -25,6 +22,8 @@ Macaw::get('news/', 'App\Controller@allNews');
 Macaw::get('blog/', 'App\blog\PostsController@getAllPosts');
 
 Macaw::get('books/(:num)', 'App\BooksController@showBookListPerPage');
+
+Macaw::get('read/(:num)', 'App\BooksController@readBook');
 
 Macaw::get('import/', 'App\ImportController@loadImage');
 Macaw::get('import/all', 'App\ImportController@loadAllImageFromDB');

@@ -27,4 +27,10 @@ class BooksController
         //S::dbg ($this->content);
         $this->View->bookList ($this->Model->out,$title =8778);
     }
+
+    public function readBook($id)
+    {
+        $book = $this->Model->getById($id);
+        $this->View->readBook($book);
+    }
 }
